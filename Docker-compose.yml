@@ -1,0 +1,61 @@
+version: "3"
+services:
+  nestjs:
+    build:
+      context: ./packages/backend
+      dockerfile: "docker/Dockerfile"
+      args:
+        - NODE_ENV=development
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=${DB_PORT}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - POSTGRES_SYNC=false
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - APP_EXPIRES=${APP_EXPIRES}
+      - APP_PORT=${BACKEND_PORT}
+    container_name: nestjs
+    restart: always
+    depends_on:
+      - postgres
+    volumes:
+      - ./packages/backend:/app
+      - /app/node_modules
+    networks:
+      - koro-network
+
+  postgres:
+    image: postgres
+    container_name: postgres-container
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - koro-network
+
+  react:
+    build:
+      context: ./packages/frontend
+      dockerfile: "docker/Dockerfile"
+      args:
+        - NODE_ENV=development
+    restart: always
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    volumes:
+      - ./packages/frontend:/app
+      - /app/node_modules
+    networks:
+      - koro-network
+
+networks:
+  koro-network:
+    driver: bridge
