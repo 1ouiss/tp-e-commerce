@@ -1,3 +1,5 @@
+import { ProductRepositoryInterface } from '../port/product.repository.interface';
+
 export class OrderItem {
   id: string;
   orderId: string;
@@ -14,5 +16,9 @@ export class OrderItem {
     this.orderId = orderId;
     this.productId = productId;
     this.quantity = quantity;
+  }
+
+  async getTotalPrice(): Promise<number> {
+    return 200;
   }
 }

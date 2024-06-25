@@ -8,3 +8,11 @@ export type CreateOrderDto = {
   quantity: number;
   orderItems: OrderItem[];
 };
+
+export class CreateOrderItemDto {
+  productId: string;
+
+  quantity: number;
+
+  price: number;
+}

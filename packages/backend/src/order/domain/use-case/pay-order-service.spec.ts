@@ -2,6 +2,7 @@ import { OrderItem } from '../entity/order-item.entity';
 import { Order } from '../entity/order.entity';
 import { Product } from '../entity/product.entity';
 import { OrderRepositoryInterface } from '../port/order.repository.interface';
+import { PayOrderService } from './paid-order.service';
 import { SetShippingService } from './set-order-shipping-address.service';
 
 describe('set Shipping', () => {
@@ -17,17 +18,17 @@ describe('set Shipping', () => {
     deleteOrder: jest.fn().mockResolvedValue(order),
   };
   const setOrderShippingService = new SetShippingService(mockOrderRepo);
+  const payOrderService = new PayOrderService(mockOrderRepo);
 
   it('should setting shipping adreess', async () => {
-    const result = await setOrderShippingService.setShippingAdress(
+    const orderNew = await setOrderShippingService.setShippingAdress(
       order,
-      '12 rue d12 rue d12 rue d12 rue d12 rue d',
+      '12 rue d12 rue d12 rue d12 egrereerttrtr d12 rue d',
     );
-    console.log(result);
 
-    expect(result.shippingAddress).toBe(
-      '12 rue d12 rue d12 rue d12 rue d12 rue d',
-    );
+    const result = await payOrderService.payOrderService(orderNew);
+
+    expect(result.status).toBe('PAID');
     expect(result.shippingAddressSetAt).not.toBeNull();
   });
 });
