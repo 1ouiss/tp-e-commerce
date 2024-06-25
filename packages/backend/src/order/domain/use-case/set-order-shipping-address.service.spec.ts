@@ -1,6 +1,5 @@
 import { OrderItem } from '../entity/order-item.entity';
 import { Order } from '../entity/order.entity';
-import { Product } from '../entity/product.entity';
 import { OrderRepositoryInterface } from '../port/order.repository.interface';
 import { SetShippingService } from './set-order-shipping-address.service';
 

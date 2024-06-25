@@ -9,7 +9,6 @@ export class AddOrderItemService {
   ) {}
 
   async addOrderItem(
-    orderItemId: string,
     orderId: string,
     productId: string,
     quantity: number,
@@ -24,8 +23,7 @@ export class AddOrderItemService {
       throw new Error('Product not found');
     }
 
-    const orderItem = new OrderItem(orderItemId, orderId, productId, quantity);
-    order.orderItems.push(orderItem);
+    order.addOrderItem(product, quantity);
 
     await this.orderRepository.save(order);
   }

@@ -34,7 +34,7 @@ export class Order {
     );
   }
 
-  addOrderItem(product: Product): any {
+  addOrderItem(product: Product, quantity: number): any {
     if (!this.orderItems) this.orderItems = [];
 
     const orderItem = this.orderItems.find(

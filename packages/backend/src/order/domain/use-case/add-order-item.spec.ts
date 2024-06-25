@@ -1,13 +1,12 @@
 import OrderItemRepository from '../../infrastructure/order-item.repository';
 import { Order } from '../entity/order.entity';
 import { CreateOrderItemService } from './create-order-item.service';
-import { OrderRepositoryInterface } from '../port/order.repository.interface';
 import { ProductRepositoryInterface } from '../port/product.repository.interface';
-import { OrderItemRepositoryInterface } from '../port/order-item.repository.interface';
 import OrderRepository from '../../infrastructure/order.repository';
+import { Product } from '../entity/product.entity';
 
 describe('Add Order Item', () => {
-  const order = new Order('customer', []);
+  const order = new Order('toto', 'customer', []);
   const orderItemRepositoryMock = {
     findById() {
       return order;
@@ -36,12 +35,7 @@ describe('Add Order Item', () => {
       productRepositoryMock,
       orderItemRepositoryMock,
     ).createOrderItem('1', '1', 1);
-    order.addOrderItem(
-      orderItem.id,
-      orderItem.orderId,
-      orderItem.productId,
-      orderItem.quantity,
-    );
+    order.addOrderItem(new Product('1', 'bike', 'an amazing bike', 1000));
     expect(order.orderItems).toContainEqual(orderItem);
   });
 });
